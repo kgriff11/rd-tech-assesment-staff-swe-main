@@ -25,8 +25,11 @@ const PlayerFilterControls: React.FC<PlayerFilterControlsProps> = ({
     // TODO: Implement position filter change handler
   };
 
+  // Clear all filters
   const clearFilters = () => {
-    // TODO: Implement clear filters functionality
+    const clearedFilters: PlayerFilterOptions = {};
+    setFilters(clearedFilters);
+    onFilterChange(clearedFilters);
   };
 
   return (
@@ -79,7 +82,7 @@ const PlayerFilterControls: React.FC<PlayerFilterControlsProps> = ({
         </div>
 
 
-        {/* TODO: Clear filters button */}
+        {/* Clear filters button */}
         <button onClick={clearFilters} className="clear-filters">
           Clear Filters
         </button>
