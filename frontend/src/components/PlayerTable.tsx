@@ -46,12 +46,24 @@ const PlayerTable: React.FC<PlayerTableProps> = ({
           <thead>
             <tr>
               <th>Name</th>
+              <th>Team</th>
+              <th>Position</th>
+              <th>Height</th>
+              <th>Weight</th>
+              <th>Throws</th>
+              <th>Bats</th>
             </tr>
           </thead>
           <tbody>
-            {players.map((player, index) => (
-              <tr key={index}>
-                <td>{/* player.name */}</td>
+            {players.map((player) => (
+              <tr key={player.player_id}>
+                <td>{`${player.first_name} ${player.last_name}`}</td>
+                <td>{player.team}</td>
+                <td>{player.primary_position}</td>
+                <td>{`${player.height_feet}'${player.height_inches}"`}</td>
+                <td>{player.weight} lbs</td>
+                <td>{player.throws}</td>
+                <td>{player.bats}</td>
               </tr>
             ))}
           </tbody>
