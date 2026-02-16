@@ -120,8 +120,9 @@ def get_players():
     """
 
     # Extract optional query parameters
-    team = request.args.get("team")          # e.g., ?team=NYM
-    position = request.args.get("position")  # e.g., ?position=P
+    team = request.args.get("team")          # e.g., ?team=TOR
+    position = request.args.get("position")  # e.g., ?position=RHS
+    player_id = request.args.get("player_id")  # ?player_id=453286
 
     # Start building the query
     query = Player.query
@@ -131,6 +132,8 @@ def get_players():
         query = query.filter_by(team=team.upper())  # Ensure uppercase match
     if position:
         query = query.filter_by(primary_position=position.upper())
+    if player_id:
+        query = query.filter_by(player_id=player_id)
 
     # Limit the number of results to prevent huge responses
     players = query.limit(1000).all()
