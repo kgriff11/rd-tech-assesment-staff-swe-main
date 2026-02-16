@@ -15,7 +15,10 @@ const PlayerFilterControls: React.FC<PlayerFilterControlsProps> = ({
   const [filters, setFilters] = useState<PlayerFilterOptions>({});
 
   const handleTeamChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    // TODO: Implement team filter change handler
+    const team = event.target.value || undefined; // undefined if empty
+    const updatedFilters = { ...filters, team };
+    setFilters(updatedFilters);
+    onFilterChange(updatedFilters);
   };
 
   const handlePositionChange = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -31,7 +34,7 @@ const PlayerFilterControls: React.FC<PlayerFilterControlsProps> = ({
       <h3>Filter Players</h3>
 
       <div className="filter-row">
-        {/* TODO: Team filter dropdown */}
+        {/* Team filter dropdown */}
         <div className="filter-group">
           <label htmlFor="team-filter">Team:</label>
           <select
@@ -40,7 +43,11 @@ const PlayerFilterControls: React.FC<PlayerFilterControlsProps> = ({
             onChange={handleTeamChange}
           >
             <option value="">All Teams</option>
-            {/* TODO: Render team options from availableTeams */}
+            {availableTeams.map((team) => (
+              <option key={team} value={team}>
+                {team}
+              </option>
+            ))}
           </select>
         </div>
 
