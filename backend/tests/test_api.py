@@ -61,9 +61,25 @@ class TestPlayerAPI:
             assert player["team"] == team_to_test
 
     def test_filter_players_by_position(self, client):
-        """Test filtering players by position."""
-        # TODO: Implement test for position filtering
-        pass
+        """
+        Test filtering players by primary position.
+        Sends a GET request to /players?position=<position>
+        and verifies all returned players have that position.
+        """
+        # Example position to filter
+        position_to_test = "P"  # Pitcher
+
+        # Make the GET request with position query param
+        response = client.get(f"/players?position={position_to_test}")
+        assert response.status_code == 200
+
+        # Convert JSON response to Python list
+        data = response.get_json()
+        assert isinstance(data, list)
+
+        # Ensure all returned players match the requested position
+        for player in data:
+            assert player["primary_position"] == position_to_test
 
     def test_get_player_by_id(self, client):
         """Test getting a specific player by ID."""
