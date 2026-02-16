@@ -100,17 +100,46 @@ def health_check():
     """Health check endpoint."""
     return jsonify({"status": "healthy"}), 200
 
-# TODO: Implement the routes for players and pitches below, feel free to modify them as necessary and/or create additional routes and helpers as needed.
 @app.route("/players", methods=["GET"])
 def get_players():
     """
-    Get all players or filter by team/position.
+    Endpoint: /players
+    Method: GET
+
+    Description:
+        Retrieves all players from the database, with optional filtering
+        by team and/or primary position. Returns up to 1000 players
+        by default to prevent overloading the response.
+
+    Query Parameters (optional):
+        - team: string, e.g., "NYM" to filter players by team code
+        - position: string, e.g., "P" to filter by primary position
+
+    Returns:
+        JSON array of serialized player objects.
     """
-    # TODO: Implement player retrieval with optional filtering
-    # Below is a simple example returning a subset of players
-    pitches = Player.query.limit(1000).all()
+
+    # Extract optional query parameters
+    team = request.args.get("team")          # e.g., ?team=NYM
+    position = request.args.get("position")  # e.g., ?position=P
+
+    # Start building the query
+    query = Player.query
+
+    # Apply filters if parameters are provided
+    if team:
+        query = query.filter_by(team=team.upper())  # Ensure uppercase match
+    if position:
+        query = query.filter_by(primary_position=position.upper())
+
+    # Limit the number of results to prevent huge responses
+    players = query.limit(1000).all()
+
+    # Serialize objects to JSON using Marshmallow schema
     schema = PlayerSchema(many=True)
-    result = schema.dump(pitches)
+    result = schema.dump(players)
+
+    # Return JSON response with HTTP status code 200
     return jsonify(result), 200
 
 @app.route("/pitches", methods=["GET"])

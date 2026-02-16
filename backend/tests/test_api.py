@@ -34,13 +34,10 @@ class TestPlayerAPI:
     """Test player-related API endpoints."""
 
     def test_get_all_players(self, client):
-        """Test getting all players."""
-        # TODO: Implement test for getting all players
-        # Steps:
-        # 1. Insert test data into database
-        # 2. Make GET request to /api/players
-        # 3. Assert correct response format and data
-        pass
+        response = client.get("/players")
+        assert response.status_code == 200
+        data = response.get_json()
+        assert isinstance(data, list)
 
     def test_filter_players_by_team(self, client):
         """Test filtering players by team."""
