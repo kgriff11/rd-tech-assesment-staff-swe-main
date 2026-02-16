@@ -22,8 +22,16 @@ const PlayerFilterControls: React.FC<PlayerFilterControlsProps> = ({
   };
 
   const handlePositionChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    // TODO: Implement position filter change handler
-  };
+  // Get the selected position from the dropdown
+  const newPosition = event.target.value || undefined;
+
+  // Update local filter state
+  const updatedFilters = { ...filters, position: newPosition };
+  setFilters(updatedFilters);
+
+  // Notify parent component so it can fetch filtered players
+  onFilterChange(updatedFilters);
+};
 
   // Clear all filters
   const clearFilters = () => {
@@ -61,16 +69,7 @@ const PlayerFilterControls: React.FC<PlayerFilterControlsProps> = ({
           <select
             id="position-filter"
             value={filters.position || ""}
-            onChange={(event) => {
-              const newPosition = event.target.value || undefined;
-              const updatedFilters = { ...filters, position: newPosition };
-
-              // Update local state
-              setFilters(updatedFilters);
-
-              // Notify parent of filter change
-              onFilterChange(updatedFilters);
-            }}
+            onChange={handlePositionChange}
           >
             <option value="">All Positions</option>
             {availablePositions.map((pos) => (
