@@ -106,5 +106,18 @@ class TestPlayerAPI:
 
     def test_get_nonexistent_player(self, client):
         """Test getting a player that doesn't exist."""
-        # TODO: Implement test for 404 response
-        pass
+        # Use a player_id that is very unlikely to exist
+        nonexistent_id = "nonexistent_999999"
+
+        # Make GET request
+        response = client.get(f"/players?player_id={nonexistent_id}")
+        
+        # Status code should still be 200 (endpoint works even if no matches)
+        assert response.status_code == 200
+
+        # Convert response JSON to list
+        data = response.get_json()
+        
+        # Check that list is empty
+        assert isinstance(data, list)
+        assert len(data) == 0
