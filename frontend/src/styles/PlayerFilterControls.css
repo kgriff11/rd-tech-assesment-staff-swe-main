@@ -79,6 +79,13 @@
 /* BASEBALL CARD CONTAINER */
 /* ============================= */
 
+.card-wrapper {
+  display: flex;
+  justify-content: center; /* horizontal center */
+  width: 100%;
+  margin-top: 40px; /* spacing from top */
+}
+
 .baseball-card {
   width: 420px;
   background: linear-gradient(145deg, #f8f4e3, #e6dcc4);
