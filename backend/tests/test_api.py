@@ -46,7 +46,7 @@ class TestPlayerAPI:
         and verifies that all returned players belong to that team.
         """
         # Example team to filter
-        team_to_test = "NYM"
+        team_to_test = "TOR"
 
         # Make the GET request with team query param
         response = client.get(f"/players?team={team_to_test}")
@@ -67,7 +67,7 @@ class TestPlayerAPI:
         and verifies all returned players have that position.
         """
         # Example position to filter
-        position_to_test = "P"  # Pitcher
+        position_to_test = "RHS"  # Pitcher
 
         # Make the GET request with position query param
         response = client.get(f"/players?position={position_to_test}")
@@ -82,9 +82,27 @@ class TestPlayerAPI:
             assert player["primary_position"] == position_to_test
 
     def test_get_player_by_id(self, client):
-        """Test getting a specific player by ID."""
-        # TODO: Implement test for single player retrieval
-        pass
+        """Test retrieving a single player by player_id."""
+
+        # player_id from baseball.db
+        example_player_id = "453286"
+
+        # Make GET request with the player_id filter
+        response = client.get(f"/players?player_id={example_player_id}")
+        assert response.status_code == 200
+
+        # Convert JSON response to Python list
+        data = response.get_json()
+        assert isinstance(data, list)
+        
+        # There should be at least one player returned
+        assert len(data) > 0
+
+        # Make sure the returned player has the correct ID
+        player = data[0]
+        assert str(player["player_id"]) == example_player_id 
+        assert player["first_name"] == "Maxwell"
+        assert player["last_name"] == "Scherzer"
 
     def test_get_nonexistent_player(self, client):
         """Test getting a player that doesn't exist."""
