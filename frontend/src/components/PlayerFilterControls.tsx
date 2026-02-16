@@ -1,6 +1,8 @@
 import React, { useState, ChangeEvent } from "react";
 import { PlayerFilterOptions } from "../types";
 import "../styles/PlayerFilterControls.css";
+import { getTeamLogoUrl } from "../constants/teamLogos";
+
 
 interface PlayerFilterControlsProps {
   onFilterChange: (filters: PlayerFilterOptions) => void;
@@ -41,51 +43,70 @@ const PlayerFilterControls: React.FC<PlayerFilterControlsProps> = ({
     onFilterChange(clearedFilters);
   };
 
+  const logoUrl = getTeamLogoUrl(filters.team);
+
   return (
-    <div className="filter-controls mlb-theme">
-      <h3>Filter Players</h3>
+    <div className="baseball-card">
+      <div className="card-content">
+        
+        <div className="card-left">
+          <div className="card-header">
+            <h2>PLAYER FILTER CARD</h2>
+            <span className="card-subtitle">Official MLB Filter Series</span>
+          </div>
 
-      <div className="filter-row">
-        {/* Team filter dropdown */}
-        <div className="filter-group">
-          <label htmlFor="team-filter">Team:</label>
-          <select
-            id="team-filter"
-            value={filters.team || ""}
-            onChange={handleTeamChange}
-          >
-            <option value="">All Teams</option>
-            {availableTeams.map((team) => (
-              <option key={team} value={team}>
-                {team}
-              </option>
-            ))}
-          </select>
+          <div className="card-body">
+            {/* Team */}
+            <div className="card-row">
+              <label htmlFor="team-filter">TEAM</label>
+              <select
+                id="team-filter"
+                value={filters.team || ""}
+                onChange={handleTeamChange}
+              >
+                <option value="">All Teams</option>
+                {availableTeams.map((team) => (
+                  <option key={team} value={team}>
+                    {team}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Position */}
+            <div className="card-row">
+              <label htmlFor="position-filter">POSITION</label>
+              <select
+                id="position-filter"
+                value={filters.position || ""}
+                onChange={handlePositionChange}
+              >
+                <option value="">All Positions</option>
+                {availablePositions.map((pos) => (
+                  <option key={pos} value={pos}>
+                    {pos}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <button onClick={clearFilters} className="card-reset">
+              RESET CARD
+            </button>
+          </div>
         </div>
 
-        {/* Position filter dropdown */}
+        {/* Team Logo */}
+        {logoUrl && (
+          <div className="card-logo">
+            <img src={logoUrl} alt={filters.team} />
+          </div>
+        )}
 
-        <div className="filter-group">
-          <label htmlFor="position-filter">Position:</label>
-          <select
-            id="position-filter"
-            value={filters.position || ""}
-            onChange={handlePositionChange}
-          >
-            <option value="">All Positions</option>
-            {availablePositions.map((pos) => (
-              <option key={pos} value={pos}>
-                {pos}
-              </option>
-            ))}
-          </select>
-        </div>
+      </div>
 
-
-        {/* Clear filters button */}
-        <button onClick={clearFilters} className="clear-filters">
-          Clear Filters
-        </button>
+      <div className="card-footer">
+        ⚾ EST. 2026 ⚾
       </div>
     </div>
   );
