@@ -54,7 +54,7 @@ const App: React.FC = () => {
     <div className="App">
       <header>
         <h1>Baseball Player Statistics</h1>
-        <p>Explore player statistics</p>
+        <p>Engineered by Kelso Griffin</p>
       </header>
 
       <main>
