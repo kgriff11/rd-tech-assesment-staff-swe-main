@@ -1,5 +1,6 @@
 import React, { useState, ChangeEvent } from "react";
 import { PlayerFilterOptions } from "../types";
+import "../styles/PlayerFilterControls.css";
 
 interface PlayerFilterControlsProps {
   onFilterChange: (filters: PlayerFilterOptions) => void;
@@ -41,7 +42,7 @@ const PlayerFilterControls: React.FC<PlayerFilterControlsProps> = ({
   };
 
   return (
-    <div className="filter-controls">
+    <div className="filter-controls mlb-theme">
       <h3>Filter Players</h3>
 
       <div className="filter-row">
