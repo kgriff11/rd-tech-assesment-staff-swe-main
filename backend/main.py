@@ -148,11 +148,36 @@ def get_players():
 @app.route("/pitches", methods=["GET"])
 def get_pitches():
     """
-    Get all pitches or filter by various fields such as player, team, date, etc.
+    Endpoint: /pitches
+    Method: GET
+
+    Description:
+        Retrieves pitches from the database with optional filtering by various fields.
+        Returns up to 1000 pitches by default.
+
+    Query Parameters (all optional):
+        - pitcher: player_id of the pitcher
+        - batter: player_id of the batter
+
+    Returns:
+        JSON array of serialized pitch objects.
     """
-    # TODO: Implement pitch retrieval with optional filtering
-    # Below is a simple example returning a subset of pitches
+
+    # Extract query parameters
+    pitcher = request.args.get("pitcher")
+    batter = request.args.get("batter")
+
+    # Start building query
+    query = Pitch.query
+
+    # Apply filters if parameters are provided
+    if pitcher:
+        query = query.filter_by(pitcher=pitcher.strip())
+    if batter:
+        query = query.filter_by(batter=batter.strip())
+
     pitches = Pitch.query.limit(1000).all()
+    
     schema = PitchSchema(many=True)
     result = schema.dump(pitches)
 
