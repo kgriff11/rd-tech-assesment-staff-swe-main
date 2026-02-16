@@ -26,9 +26,18 @@ class TestHealthCheck:
 
     def test_health_check(self, client):
         """Test that health check returns 200 status."""
-        # TODO: Implement health check test
-        pass
+        # Make a GET request to /health
+        response = client.get("/health")
+        
+        # Check that the status code is 200
+        assert response.status_code == 200
 
+        # Parse JSON response
+        data = response.get_json()
+        
+        # Ensure the JSON contains the expected key and value
+        assert isinstance(data, dict)
+        assert data.get("status") == "healthy"
 
 class TestPlayerAPI:
     """Test player-related API endpoints."""
