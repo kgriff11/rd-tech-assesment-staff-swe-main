@@ -40,9 +40,25 @@ class TestPlayerAPI:
         assert isinstance(data, list)
 
     def test_filter_players_by_team(self, client):
-        """Test filtering players by team."""
-        # TODO: Implement test for team filtering
-        pass
+        """
+        Test filtering players by team.
+        This sends a GET request to /players?team=<team>
+        and verifies that all returned players belong to that team.
+        """
+        # Example team to filter
+        team_to_test = "NYM"
+
+        # Make the GET request with team query param
+        response = client.get(f"/players?team={team_to_test}")
+        assert response.status_code == 200
+
+        # Convert JSON response to Python list
+        data = response.get_json()
+        assert isinstance(data, list)
+
+        # Ensure all returned players are from the requested team
+        for player in data:
+            assert player["team"] == team_to_test
 
     def test_filter_players_by_position(self, client):
         """Test filtering players by position."""
