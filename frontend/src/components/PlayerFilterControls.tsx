@@ -51,18 +51,33 @@ const PlayerFilterControls: React.FC<PlayerFilterControlsProps> = ({
           </select>
         </div>
 
-        {/* TODO: Position filter dropdown */}
+        {/* Position filter dropdown */}
+
         <div className="filter-group">
           <label htmlFor="position-filter">Position:</label>
           <select
             id="position-filter"
             value={filters.position || ""}
-            onChange={handlePositionChange}
+            onChange={(event) => {
+              const newPosition = event.target.value || undefined;
+              const updatedFilters = { ...filters, position: newPosition };
+
+              // Update local state
+              setFilters(updatedFilters);
+
+              // Notify parent of filter change
+              onFilterChange(updatedFilters);
+            }}
           >
             <option value="">All Positions</option>
-            {/* TODO: Render position options from availablePositions */}
+            {availablePositions.map((pos) => (
+              <option key={pos} value={pos}>
+                {pos}
+              </option>
+            ))}
           </select>
         </div>
+
 
         {/* TODO: Clear filters button */}
         <button onClick={clearFilters} className="clear-filters">
