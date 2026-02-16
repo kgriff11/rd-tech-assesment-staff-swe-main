@@ -6,6 +6,7 @@ import pandas as pd
 from typing import List, Optional
 from schemas import PitchSchema, PlayerSchema
 from pathlib import Path
+from sqlalchemy import func
 
 # Initialize Flask app and extensions
 app = Flask(__name__)
@@ -166,6 +167,9 @@ def get_pitches():
     # Extract query parameters
     pitcher = request.args.get("pitcher")
     batter = request.args.get("batter")
+    game_date = request.args.get("game_date")
+    home_team = request.args.get("home_team")
+    away_team = request.args.get("away_team")
 
     # Start building query
     query = Pitch.query
@@ -175,9 +179,15 @@ def get_pitches():
         query = query.filter_by(pitcher=pitcher.strip())
     if batter:
         query = query.filter_by(batter=batter.strip())
+    if game_date:
+        query = query.filter(Pitch.game_date.like(f"{game_date.strip()}%"))
+    if home_team:
+        query = query.filter_by(home_team=home_team.strip().upper())
+    if away_team:
+        query = query.filter_by(away_team=away_team.strip().upper())    
 
-    pitches = Pitch.query.limit(1000).all()
-    
+    pitches = query.limit(1000).all()
+
     schema = PitchSchema(many=True)
     result = schema.dump(pitches)
 
