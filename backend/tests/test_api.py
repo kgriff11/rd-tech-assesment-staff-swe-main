@@ -84,7 +84,7 @@ class TestPlayerAPI:
     def test_get_player_by_id(self, client):
         """Test retrieving a single player by player_id."""
 
-        # player_id from baseball.db
+        # Use a real player_id from baseball.db
         example_player_id = "453286"
 
         # Make GET request with the player_id filter
@@ -100,7 +100,7 @@ class TestPlayerAPI:
 
         # Make sure the returned player has the correct ID
         player = data[0]
-        assert str(player["player_id"]) == example_player_id 
+        assert str(player["player_id"]) == example_player_id
         assert player["first_name"] == "Maxwell"
         assert player["last_name"] == "Scherzer"
 
